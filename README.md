@@ -30,7 +30,7 @@ First import the 'sendApiRequest function' and set language, security context(cr
 | Password      | The user's password                                    |
 | Application   | The name of the registered application                 |
 
-##### sendApiRequest and set values
+##### SendApiRequest function and set values
 ```js
 import {sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl} from './api.js'
 
@@ -38,7 +38,8 @@ setApiResponseLanguage('EN');
 setApiSecurityContext('[Account]', '[Username]', '[Password]', '[Application]');
 setApiServiceUrl('https://mailworx.marketingsuite.info/Services/JSON/ServiceAgent.svc');
 
-//create additional properties to use in request -> use the documentation to determine what properties are needed for a specific function
+//Create additional properties to use in request -> use the documentation to determine what properties
+//are needed for a specific function
 let additionalProperties = [
     {
         Name: 'ResponseDetail',
@@ -50,6 +51,7 @@ let additionalProperties = [
     }
 ]
 
+//simple api request
 let response = await sendApiRequest('GetCampaigns', additionalProperties);
 ```
 

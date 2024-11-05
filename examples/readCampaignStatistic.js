@@ -1,9 +1,4 @@
 import {sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl} from '../api.js'
-import {
-    AB_SPLIT_TEST_SEND_SETTINGS_TYPE, MANUAL_SEND_SETTINGS_TYPE, SECTION_TYPE, CAMPAIGN_TYPE, CampaignType, ProfileType, CLEAR_PROFILE_ACTION_TYPE, 
-    PROFILE_ADDER_ACTION_TYPE, ExecuteWith, SUBSCRIBER_TYPE, SubscriberStatus, Mailformat, TEXT_FIELD_TYPE, DATE_TIME_FIELD_TYPE, SELECTION_FIELD_TYPE,
-    NUMBER_FIELD_TYPE, BOOLEAN_FIELD_TYPE, URL_FIELD_TYPE, MDB_FIELD_TYPE, GUID_FIELD_TYPE, HTML_ENCODED_TEXT_FIELD_TYPE, FieldType, TEMPLATE_TYPE
-}from '../constants.js';
  
 
 //Prints campaign statistics to the console.

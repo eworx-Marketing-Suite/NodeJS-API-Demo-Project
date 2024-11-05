@@ -1,6 +1,7 @@
 import {MANUAL_SEND_SETTINGS_TYPE, SendType} from '../constants.js';
 import {sendApiRequest} from '../api.js'
 
+//send a campaign
 async function sendCampaign(campaignId){
     //generate properties for the send campaign request
     let additionalSendCampaignProperties = [

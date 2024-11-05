@@ -6,7 +6,7 @@ import {
 } from '../constants.js';
 import fs from "fs"
 
-
+//create sections for specified campaign
 async function createSection(templateId, campaignId){
     //Load all available section definitions for the given template.
     let sectionDefinitions = await loadSectionDefinition(templateId);

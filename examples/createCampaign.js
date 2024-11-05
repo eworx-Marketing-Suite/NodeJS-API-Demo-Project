@@ -5,7 +5,7 @@ import {
     NUMBER_FIELD_TYPE, BOOLEAN_FIELD_TYPE, URL_FIELD_TYPE, MDB_FIELD_TYPE, GUID_FIELD_TYPE, HTML_ENCODED_TEXT_FIELD_TYPE, FieldType, TEMPLATE_TYPE
 } from '../constants.js';
 
-
+//create a campaign based on a existing campaign
 async function createCampaign(profileId, campaignName){
     // Load the original campaign.
     let originalCampaign = await loadCampaign(campaignName);
