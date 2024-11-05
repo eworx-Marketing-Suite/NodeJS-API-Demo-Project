@@ -77,12 +77,7 @@ async function getSubscribers(){
                 __type: TEXT_FIELD_TYPE,
                 InternalName: 'lastname',
                 UntypedValue: 'Service Mailer'
-            },
-            {
-                __type: DATE_TIME_FIELD_TYPE,
-                InternalName: 'birthdate',
-                UntypedValue: new Date()
-            } 
+            }
         ]
     };
 
@@ -151,11 +146,6 @@ async function getSubscribers(){
                 InternalName: 'iscustomer',
                 UntypedValue: false
             },
-            {
-                __type: DATE_TIME_FIELD_TYPE,
-                InternalName: 'birthdate',
-                UntypedValue: new Date()
-            },
         ]
     };
 
@@ -184,12 +174,7 @@ async function getSubscribers(){
                 __type: BOOLEAN_FIELD_TYPE,
                 InternalName: 'iscustomer',
                 UntypedValue: false
-            },
-            {
-                __type: DATE_TIME_FIELD_TYPE,
-                InternalName: 'birthdate',
-                UntypedValue: new Date()
-            },
+            }
         ]
     };  
 
