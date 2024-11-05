@@ -7,6 +7,9 @@ import {
 
 //create a campaign based on a existing campaign
 async function createCampaign(profileId, campaignName){
+    if(!profileId){
+        throw new Error('profileId is null or undefined');
+    }
     // Load the original campaign.
     let originalCampaign = await loadCampaign(campaignName);
     let data = null;
