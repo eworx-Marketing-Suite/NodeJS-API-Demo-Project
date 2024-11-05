@@ -18,6 +18,7 @@ let createCampaignResponse = await createCampaign(importResponse.profileId, camp
 let createSectionResponse = await createSection(createCampaignResponse.templateId, createCampaignResponse.campaignId);
 let readCampaignStatisticResponse = await readCampaignStatistic(createCampaignResponse.campaignId);
 
+//this will actually send the campaign!
 if(createSectionResponse){
     await sendCampaign(createCampaignResponse.campaignId);
 }

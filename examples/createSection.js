@@ -336,7 +336,7 @@ async function uploadFile(path, fileName){
         let fileUploadResponse = await sendApiRequest('UploadFileToMDB', uploadFileAdditionalProperties);
 
         if(fileUploadResponse !== null){
-            return fileUploadResponse['<Id>k__BackingField'];
+            return fileUploadResponse['<FileId>k__BackingField'];
         }
         else {
             return null;
