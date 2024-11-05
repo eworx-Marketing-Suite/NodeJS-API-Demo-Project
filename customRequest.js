@@ -1,13 +1,13 @@
-import {sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl} from './api.js'
+import { sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl } from './api.js'
 import { securityContextPrompt, languagePrompt, serviceUrlPrompt, additionalPropertiesPrompt, methodPrompt } from './prompts.js';
 
 //set language -> if nothing is entered the dafault value will be chosen.
 let language = languagePrompt();
-setApiResponseLanguage(language??null);
+setApiResponseLanguage(language ?? null);
 
 //set api service url -> if nothing is entered the dafault value will be chosen.
 let serviceUrl = serviceUrlPrompt();
-setApiServiceUrl(serviceUrl??null);
+setApiServiceUrl(serviceUrl ?? null);
 
 //set security context
 let securityContext = securityContextPrompt();
@@ -18,5 +18,5 @@ let methodName = methodPrompt();
 
 //set additional properties
 let additionalProperties = additionalPropertiesPrompt();
-let response = await sendApiRequest(methodName, additionalProperties);  
-console.log (response);
+let response = await sendApiRequest(methodName, additionalProperties);
+console.log(response);

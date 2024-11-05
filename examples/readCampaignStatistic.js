@@ -1,8 +1,8 @@
-import {sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl} from '../api.js'
- 
+import { sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl } from '../api.js'
+
 
 //Prints campaign statistics to the console.
-async function readCampaignStatistic(campaingId){
+async function readCampaignStatistic(campaingId) {
     let getCampaignsRequestAdditionalProperties = [
         {
             Name: 'Id',
@@ -30,7 +30,7 @@ async function readCampaignStatistic(campaingId){
 }
 
 //Prints the campaign info to the console.
-function displayGeneralCampaignInfo(campaign){
+function displayGeneralCampaignInfo(campaign) {
     let dateString = campaign.Created.substr(6);
     let date = new Date(parseInt(dateString));
 
@@ -40,13 +40,13 @@ function displayGeneralCampaignInfo(campaign){
     console.log('Sender: ' + campaign.SenderAdress);
     console.log('Profile name: ' + campaign.ProfileName);
     console.log('Culture: ' + campaign.Culture);
-    console.log('Notify address: ' +campaign.NotifyAdress)
+    console.log('Notify address: ' + campaign.NotifyAdress)
     console.log('******************************************************************');
     console.log('');
 }
 
 //Prints the campaign statistics to the console.
-async function displayStatistics(campaign){
+async function displayStatistics(campaign) {
     let statisticsRequestAdditionalProperties = [
         {
             Name: 'CampaignGuid',
@@ -54,7 +54,7 @@ async function displayStatistics(campaign){
         }
     ];
     let statisticsResponse = await sendApiRequest('GetCampaignStatistics', statisticsRequestAdditionalProperties);
-    
+
     console.log('Statistics of ' + campaign.Name)
     console.log('******************************************************************');
     console.log('Sent mails: ' + statisticsResponse.TotalMails);
@@ -79,7 +79,7 @@ async function displayBouncesInfo(campaign) {
     console.log('Bounces statistics of ' + campaign.Name);
     console.log('******************************************************************');
     console.log('Subscribers:');
-    for(const subscriber of bounceInfo.Subscribers){
+    for (const subscriber of bounceInfo.Subscribers) {
         console.log('Guid of Subscriber: ' + subscriber.Guid);
     }
     console.log('******************************************************************');
@@ -87,7 +87,7 @@ async function displayBouncesInfo(campaign) {
 }
 
 //Prints the click rates info to the console.
-async function  displayClickratesInfo(campaign){
+async function displayClickratesInfo(campaign) {
     let clickratesAdditionalProperties = [
         {
             Name: 'CampaignGuid',
@@ -101,7 +101,7 @@ async function  displayClickratesInfo(campaign){
     console.log('******************************************************************');
     console.log('Clicked links:');
     console.log('');
-    for(const statisticLink of clickratesInfo.ClickedLinks){
+    for (const statisticLink of clickratesInfo.ClickedLinks) {
         console.log('Linkname: ' + statisticLink.LinkName);
         console.log('Clicks: ' + statisticLink.Clicks);
         console.log('Url: ' + statisticLink.Url);
@@ -113,7 +113,7 @@ async function  displayClickratesInfo(campaign){
 }
 
 //Prints the opening rates to the console.
-async function displayOpeningRatesInfo(campaign){
+async function displayOpeningRatesInfo(campaign) {
     let openingRatesAdditionalProperties = [
         {
             Name: 'CampaignGuid',
@@ -123,10 +123,10 @@ async function displayOpeningRatesInfo(campaign){
 
     let openingRatesInfo = await sendApiRequest('GetOpeningRatesOfCampaign', openingRatesAdditionalProperties);
 
-    console.log('Opening rates statistics of ' + campaign.Name); 
+    console.log('Opening rates statistics of ' + campaign.Name);
     console.log('******************************************************************');
     console.log('Openend maiils:');
-    for(const openedMailInfo of openingRatesInfo.Openings){
+    for (const openedMailInfo of openingRatesInfo.Openings) {
         console.log('State:' + openedMailInfo.ReadingState);
         console.log('Opened at: ' + openedMailInfo.OpenedAt);
         console.log('Reading state specified: ' + openedMailInfo.ReadingStateSpecified);
@@ -135,6 +135,7 @@ async function displayOpeningRatesInfo(campaign){
     console.log('******************************************************************');
     console.log('');
 }
-export{
+
+export {
     readCampaignStatistic
 }

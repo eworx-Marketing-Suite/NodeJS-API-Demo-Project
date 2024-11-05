@@ -1,13 +1,13 @@
-import {sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl} from '../api.js'
+import { sendApiRequest, setApiResponseLanguage, setApiSecurityContext, setApiServiceUrl } from '../api.js'
 import {
-    AB_SPLIT_TEST_SEND_SETTINGS_TYPE, MANUAL_SEND_SETTINGS_TYPE, SECTION_TYPE, CAMPAIGN_TYPE, CampaignType, ProfileType, CLEAR_PROFILE_ACTION_TYPE, 
+    AB_SPLIT_TEST_SEND_SETTINGS_TYPE, MANUAL_SEND_SETTINGS_TYPE, SECTION_TYPE, CAMPAIGN_TYPE, CampaignType, ProfileType, CLEAR_PROFILE_ACTION_TYPE,
     PROFILE_ADDER_ACTION_TYPE, ExecuteWith, SUBSCRIBER_TYPE, SubscriberStatus, Mailformat, TEXT_FIELD_TYPE, DATE_TIME_FIELD_TYPE, SELECTION_FIELD_TYPE,
     NUMBER_FIELD_TYPE, BOOLEAN_FIELD_TYPE, URL_FIELD_TYPE, MDB_FIELD_TYPE, GUID_FIELD_TYPE, HTML_ENCODED_TEXT_FIELD_TYPE, FieldType, TEMPLATE_TYPE
 } from '../constants.js';
 import fs from "fs"
 
 //create sections for specified campaign
-async function createSection(templateId, campaignId){
+async function createSection(templateId, campaignId) {
     //Load all available section definitions for the given template.
     let sectionDefinitions = await loadSectionDefinition(templateId);
     let sectionCreated = false;
@@ -15,14 +15,14 @@ async function createSection(templateId, campaignId){
     //There are different types of fields which can be used. Have a look at the constants class.
 
     //If there are no section definitions we can't setup the campaign.
-    if(sectionDefinitions !== null && sectionDefinitions.length > 0){
+    if (sectionDefinitions !== null && sectionDefinitions.length > 0) {
         sectionCreated = true;
         //Right here we create three different sample sections for our sample campaign.
 
         //Load the section definition that defines an article
         //Beware that these section definition names may change if the response language of the request is set to a language other than english 
         let definitionArticle = loadSectionDefinitionByName('Article', sectionDefinitions);
-        if(definitionArticle !== null){
+        if (definitionArticle !== null) {
             let definitionArticleAdditionalProperties = [
                 {
                     Name: 'Campaign',
@@ -36,7 +36,7 @@ async function createSection(templateId, campaignId){
                     Value: await createArticleSection(definitionArticle)
                 }
             ];
-            
+
             //Create the section
             let createSectionArticleResponse = await sendApiRequest('CreateSection', definitionArticleAdditionalProperties);
 
@@ -46,7 +46,7 @@ async function createSection(templateId, campaignId){
 
         //Load the sector definition that defines a two column.
         let definitionTwoColumns = loadSectionDefinitionByName('Article with 2 Columns', sectionDefinitions);
-        if(definitionTwoColumns !== null){
+        if (definitionTwoColumns !== null) {
             let additionalTwoColumnsProperties = [
                 {
                     Name: 'Campaign',
@@ -70,14 +70,14 @@ async function createSection(templateId, campaignId){
 
         //Load the section definition that defines an article
         let definitionBanner = loadSectionDefinitionByName('Teaser', sectionDefinitions);
-        if(definitionBanner !== null){
+        if (definitionBanner !== null) {
             let bannerAdditionalProperties = [
                 {
-                Name: 'Campaign',
-                Value: {
-                    __type: CAMPAIGN_TYPE,
-                    Guid: campaignId
-                }
+                    Name: 'Campaign',
+                    Value: {
+                        __type: CAMPAIGN_TYPE,
+                        Guid: campaignId
+                    }
                 },
                 {
                     Name: 'Section',
@@ -97,7 +97,7 @@ async function createSection(templateId, campaignId){
 
 //Gets all section definitions of a template.
 //Returns the sections definitions of the given template.
-async function loadSectionDefinition(templateId){
+async function loadSectionDefinition(templateId) {
     let sectionDefinitionAdditionalProperties = [
         {
             Name: 'Template',
@@ -109,31 +109,31 @@ async function loadSectionDefinition(templateId){
     ];
 
     let sectionDefinitionResponse = await sendApiRequest('GetSectionDefinitions', sectionDefinitionAdditionalProperties);
-    
+
     /* ### DEMONSTRATE SECTION DEFINITION STRUCTURE ###
     Here we use the console application in order to demonstrate the structure of each section definition.
     You need to know the structure in order to be able to create sections on your own.*/
-    if(sectionDefinitionResponse === null){
+    if (sectionDefinitionResponse === null) {
         return;
     }
-    else{
+    else {
         console.log('-------------------------------Section definitions-------------------------------');
-        for(const [sectionDefinitionIndex, sectionDefinition] of sectionDefinitionResponse.SectionDefinitions.entries()){
+        for (const [sectionDefinitionIndex, sectionDefinition] of sectionDefinitionResponse.SectionDefinitions.entries()) {
             console.log('++++++++++++++++++++++++++++++ Section definition ' + (sectionDefinitionIndex + 1) + ' ++++++++++++++++++++++++++++++');
-            console.log('Name: ' + sectionDefinition.Name); 
+            console.log('Name: ' + sectionDefinition.Name);
 
-            if(sectionDefinition.Fields.length > 0){
-                for(const [fieldIndex, field] of sectionDefinition.Fields.entries()){
-                    let endOfType = field.__type.indexOf(':');////????????????????????????????????
+            if (sectionDefinition.Fields.length > 0) {
+                for (const [fieldIndex, field] of sectionDefinition.Fields.entries()) {
+                    let endOfType = field.__type.indexOf(':');
                     let typeName = field.__type.substring(0, endOfType);
                     console.log('******** Field ' + (fieldIndex + 1) + '********');
                     console.log('Name: ' + field.InternalName);
                     console.log('Type: ' + typeName);
-                    
-                    if(typeName.toLowerCase() === 'selectionfield'){
+
+                    if (typeName.toLowerCase() === 'selectionfield') {
                         console.log('');
                         console.log('Selections: ');
-                        for(const selection of field.SelectionObjects){
+                        for (const selection of field.SelectionObjects) {
                             console.log('Name: ' + selection.Caption);
                             console.log('Value: ' + selection.InternalName);
                             console.log('---------')
@@ -143,7 +143,7 @@ async function loadSectionDefinition(templateId){
                     console.log('');
                 }
             }
-            else{
+            else {
                 console.log('No fields found.')
             }
         }
@@ -153,12 +153,12 @@ async function loadSectionDefinition(templateId){
 }
 
 //Creates an article section
-async function createArticleSection(definitionArticle){
+async function createArticleSection(definitionArticle) {
     let fieldsToAdd = [];
 
     //build the section -> add text and images to certain fields
-    for(const field of definitionArticle.Fields){
-        if(field.InternalName.toLowerCase() === 'a_text'){
+    for (const field of definitionArticle.Fields) {
+        if (field.InternalName.toLowerCase() === 'a_text') {
             fieldsToAdd.push({
                 __type: TEXT_FIELD_TYPE,
                 InternalName: field.InternalName,
@@ -168,10 +168,10 @@ async function createArticleSection(definitionArticle){
                 UntypedValue: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy "eirmod tempor" invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et <a href="www.mailworx.info">justo</a> duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo dup dolores et ea rebum.  <a href="http://sys.mailworx.info/sys/Form.aspx?frm=4bf54eb6-97a6-4f95-a803-5013f0c62b35">Stet</a> clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.'
             });
         }
-        else if(field.InternalName.toLowerCase() === 'a_img'){
+        else if (field.InternalName.toLowerCase() === 'a_img') {
             //Upload the file from the given path to the eMS media data base.
             let file = await uploadFile('./assets/email.png', 'email.png');
-            if(file !== null){
+            if (file !== null) {
                 fieldsToAdd.push({
                     __type: MDB_FIELD_TYPE,
                     InternalName: field.InternalName,
@@ -179,7 +179,7 @@ async function createArticleSection(definitionArticle){
                 });
             }
         }
-        else if (field.InternalName.toLowerCase() === 'a_hl'){
+        else if (field.InternalName.toLowerCase() === 'a_hl') {
             fieldsToAdd.push({
                 __type: TEXT_FIELD_TYPE,
                 InternalName: field.InternalName,
@@ -197,31 +197,14 @@ async function createArticleSection(definitionArticle){
 }
 
 //Creates a two column section
-async function createTwoColumnSection(definitionTwoColumns){
+async function createTwoColumnSection(definitionTwoColumns) {
     let fieldsToAdd = [];
 
     //build the section -> add text and images to certain fields
-    for(const field of definitionTwoColumns.Fields){
-        if(field.InternalName.toLowerCase() === 'c2_l_img'){
+    for (const field of definitionTwoColumns.Fields) {
+        if (field.InternalName.toLowerCase() === 'c2_l_img') {
             let file = await uploadFile("./assets/logo.png", "logo.png");
-            if(file !== null){
-                fieldsToAdd.push({
-                    __type:MDB_FIELD_TYPE,
-                    InternalName: field.InternalName,
-                    UntypedValue: file
-                });
-            }
-        }
-        else if(field.InternalName.toLowerCase() === 'c2_l_text'){
-            fieldsToAdd.push({
-                __type: TEXT_FIELD_TYPE,
-                InternalName: field.InternalName,
-                UntypedValue: 'Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto ignissim, qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.'
-            });
-        }
-        else if(field.InternalName.toLowerCase() === 'c2_r_img'){
-            let file = await uploadFile("./assets/events.png", "events.png");
-            if(file !== null){
+            if (file !== null) {
                 fieldsToAdd.push({
                     __type: MDB_FIELD_TYPE,
                     InternalName: field.InternalName,
@@ -229,7 +212,24 @@ async function createTwoColumnSection(definitionTwoColumns){
                 });
             }
         }
-        else if(field.InternalName.toLowerCase() === 'c2_r_text'){
+        else if (field.InternalName.toLowerCase() === 'c2_l_text') {
+            fieldsToAdd.push({
+                __type: TEXT_FIELD_TYPE,
+                InternalName: field.InternalName,
+                UntypedValue: 'Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto ignissim, qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.'
+            });
+        }
+        else if (field.InternalName.toLowerCase() === 'c2_r_img') {
+            let file = await uploadFile("./assets/events.png", "events.png");
+            if (file !== null) {
+                fieldsToAdd.push({
+                    __type: MDB_FIELD_TYPE,
+                    InternalName: field.InternalName,
+                    UntypedValue: file
+                });
+            }
+        }
+        else if (field.InternalName.toLowerCase() === 'c2_r_text') {
             fieldsToAdd.push({
                 __type: TEXT_FIELD_TYPE,
                 InternalName: field.InternalName,
@@ -247,12 +247,12 @@ async function createTwoColumnSection(definitionTwoColumns){
 }
 
 //Create banner section
-async function createBannerSection(definitionBanner){
+async function createBannerSection(definitionBanner) {
     let fieldsToAdd = [];
-    for (const field of definitionBanner.Fields){
-        if(field.InternalName.toLowerCase() === 't_img'){
+    for (const field of definitionBanner.Fields) {
+        if (field.InternalName.toLowerCase() === 't_img') {
             let file = await uploadFile("./assets/logo.png", "eMS-logo.png");
-            if (file !== null){
+            if (file !== null) {
                 fieldsToAdd.push({
                     __type: MDB_FIELD_TYPE,
                     InternalName: field.InternalName,
@@ -260,7 +260,7 @@ async function createBannerSection(definitionBanner){
                 });
             }
         }
-        else if(field.InternalName.toLowerCase() === 't_text'){
+        else if (field.InternalName.toLowerCase() === 't_text') {
             fieldsToAdd.push({
                 __type: TEXT_FIELD_TYPE,
                 InternalName: field.InternalName,
@@ -278,9 +278,9 @@ async function createBannerSection(definitionBanner){
 
 //Description: Loads the section definitions for the given template id.
 //Returnes the section definition if it finds one with the according sectionDefinitionName.
-function loadSectionDefinitionByName(sectionDefinitionName, sectionDefinitions){
-    for(const sectionDefinition of sectionDefinitions){
-        if(sectionDefinition.Name.toLowerCase() === sectionDefinitionName.toLowerCase()){
+function loadSectionDefinitionByName(sectionDefinitionName, sectionDefinitions) {
+    for (const sectionDefinition of sectionDefinitions) {
+        if (sectionDefinition.Name.toLowerCase() === sectionDefinitionName.toLowerCase()) {
             return sectionDefinition;
         }
     }
@@ -289,9 +289,9 @@ function loadSectionDefinitionByName(sectionDefinitionName, sectionDefinitions){
 
 //Searches a file by its name.
 //Returnes the id of the file if its found.
-function getFileIdByName(fileName, files){
-    for(const file of files){
-        if(file.Name.toLowerCase() === fileName.toLowerCase()){
+function getFileIdByName(fileName, files) {
+    for (const file of files) {
+        if (file.Name.toLowerCase() === fileName.toLowerCase()) {
             return file.Id;
         }
     }
@@ -302,7 +302,7 @@ function getFileIdByName(fileName, files){
 //Parameter path: The path where the file to upload is located.
 //Parameter fileName: Name of the file to upload.
 //Returnes the id of the uploaded file.
-async function uploadFile(path, fileName){
+async function uploadFile(path, fileName) {
     let mdbFilesAdditionalProperties = [{
         Name: 'Path',
         Value: 'NodeJS_API_Test'
@@ -313,7 +313,7 @@ async function uploadFile(path, fileName){
     let getMdbFilesResponse = await sendApiRequest('GetMDBFiles', mdbFilesAdditionalProperties);
 
     //if the file doesn't already exists upload the file to the MDB, otherwise return the existing files id
-    if(getMdbFilesResponse === null || getFileIdByName(fileName, getMdbFilesResponse["<Files>k__BackingField"]) === null){
+    if (getMdbFilesResponse === null || getFileIdByName(fileName, getMdbFilesResponse["<Files>k__BackingField"]) === null) {
         //get the image as a buffer
         let contents = fs.readFileSync(path, null).buffer;
 
@@ -321,7 +321,7 @@ async function uploadFile(path, fileName){
             {
                 Name: 'File',
                 Value: Array.from(new Uint8Array(contents)) //convert the buffer to an Array so the api can handle it
-                
+
             },
             {
                 Name: 'Path',
@@ -335,19 +335,19 @@ async function uploadFile(path, fileName){
 
         let fileUploadResponse = await sendApiRequest('UploadFileToMDB', uploadFileAdditionalProperties);
 
-        if(fileUploadResponse !== null){
+        if (fileUploadResponse !== null) {
             return fileUploadResponse['<FileId>k__BackingField'];
         }
         else {
             return null;
         }
     }
-    else{
+    else {
         return getFileIdByName(fileName, getMdbFilesResponse['<Files>k__BackingField']);
     }
 }
 
 
-export{
+export {
     createSection
 }

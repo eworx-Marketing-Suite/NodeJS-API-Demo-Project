@@ -26,7 +26,7 @@ const Mailformat = {
     Multipart: 2
 }
 
-const FieldType =  {
+const FieldType = {
     MetaInformation: 1,
     CustomInformation: 2
 }
@@ -59,7 +59,7 @@ const SECTION_TYPE = 'Section:#Eworx.Mailworx.ServiceInterfaces.Campaigns';
 const MANUAL_SEND_SETTINGS_TYPE = 'ManualSendSettings:#Eworx.Mailworx.ServiceInterfaces.Campaigns';
 const AB_SPLIT_TEST_SEND_SETTINGS_TYPE = 'ABSplitTestSendSettings:#Eworx.Mailworx.ServiceInterfaces.Campaigns';
 
-export{
+export {
     AB_SPLIT_TEST_SEND_SETTINGS_TYPE,
     MANUAL_SEND_SETTINGS_TYPE,
     SECTION_TYPE,
